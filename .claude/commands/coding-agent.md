@@ -43,4 +43,19 @@ export OPENAI_API_KEY=<key>
 |------|------|
 | `--dry-run` | 只规划，不执行 |
 | `--test-first` | TDD 模式：先写测试再实现 |
-| `--no-confirm` | 跳过确认直接执行（谨慎使用） |
+| `--no-confirm` | 跳过**部分**确认（见下方限制） |
+
+## `--no-confirm` 安全限制
+
+`--no-confirm` **不跳过**以下操作的确认，无论是否传入该参数：
+
+| 操作类型 | 示例 | 始终要求确认 |
+|---------|------|------------|
+| 删除文件/目录 | `rm`, `shutil.rmtree` | ✅ |
+| 强制推送 | `git push --force` | ✅ |
+| 数据库破坏性操作 | `DROP TABLE`, `DELETE` 无 WHERE | ✅ |
+| 安装/卸载系统包 | `pip install`, `npm install -g` | ✅ |
+| 修改 CI/CD 配置 | `.github/workflows/*.yml` | ✅ |
+| 写入 `.env` / 凭证文件 | 任何含 KEY/TOKEN/SECRET 的文件 | ✅ |
+
+**使用 `--no-confirm` 的前提**：任务描述必须包含明确的操作范围（具体文件路径或函数名），不接受开放式指令（如「修复所有问题」「清理代码」）。如任务描述模糊，自动降级为普通模式。
