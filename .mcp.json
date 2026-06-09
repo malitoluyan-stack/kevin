@@ -2,12 +2,12 @@
   "mcpServers": {
     "playwright": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest"],
+      "args": ["@playwright/mcp@0.0.75"],
       "env": {}
     },
     "markitdown": {
       "command": "uvx",
-      "args": ["markitdown-mcp"],
+      "args": ["markitdown-mcp==0.0.1a4"],
       "env": {}
     }
   }
